@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t hugosaaz/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run hugosaaz/react-test npm test -- --coverage
+
+after success:
+  - docker build -t hugosaaz/multi-client ./client
+  - docker build -t hugosaaz/multi-nginx ./nginx
+  - docker build -t hugosaaz/multi-server ./server
+  - docker build -t hugosaaz/multi-worker ./worker
+  #log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  #take those images and push them to docker hub
+  - docker push hugosaaz/multi-client
+  - docker push hugosaaz/multi-nginx
+  - docker push hugosaaz/multi-server
+  - docker push hugosaaz/multi-worker
