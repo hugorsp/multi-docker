@@ -8,7 +8,7 @@ before_install:
 script:
   - docker run hugosaaz/react-test npm test -- --coverage
 
-after success:
+after_success:
   - docker build -t hugosaaz/multi-client ./client
   - docker build -t hugosaaz/multi-nginx ./nginx
   - docker build -t hugosaaz/multi-server ./server
