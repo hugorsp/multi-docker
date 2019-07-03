@@ -20,3 +20,4 @@ after success:
   - docker push hugosaaz/multi-nginx
   - docker push hugosaaz/multi-server
   - docker push hugosaaz/multi-worker
+  #y
